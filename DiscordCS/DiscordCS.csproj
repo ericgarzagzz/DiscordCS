@@ -8,6 +8,7 @@
     <Folder Include="Interfaces\" />
     <Folder Include="Events\" />
     <Folder Include="Sockets\" />
+    <Folder Include="Gateways\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DiscordSC.Models\DiscordCSModels.csproj" />

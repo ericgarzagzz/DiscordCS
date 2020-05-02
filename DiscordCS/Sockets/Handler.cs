@@ -43,7 +43,7 @@ namespace DiscordCS.Sockets
         {
             string response = string.Empty;
 
-            var buffer = new ArraySegment<byte>(new byte[2048]);
+            var buffer = new ArraySegment<byte>(new byte[4096]);
             do
             {
                 WebSocketReceiveResult result;

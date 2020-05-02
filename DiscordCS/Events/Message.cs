@@ -8,9 +8,9 @@ namespace DiscordCS.Events
 {
     public class Message : IMessageEvents
     {
-        public async Task MessageSent()
+        public Task MessageSent()
         {
-            
+            return Task.CompletedTask;
         }
     }
 }
