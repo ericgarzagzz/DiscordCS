@@ -4,6 +4,8 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using DiscordCSModels.Sockets;
 
 namespace DiscordCS.Sockets
 {
@@ -30,6 +32,11 @@ namespace DiscordCS.Sockets
             {
                 await _client.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
             }
+        }
+
+        public static async Task Send(string data)
+        {
+            await _client.SendAsync(Encoding.UTF8.GetBytes(data), WebSocketMessageType.Text, true, CancellationToken.None);
         }
 
         public static async Task<string> Receive()

@@ -5,12 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Events\" />
     <Folder Include="Sockets\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DiscordSC.Models\DiscordCSModels.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
