@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using DiscordCS;
 using DiscordCSModels.Sockets;
+using System.Threading;
 
 namespace DiscordCSImplementation
 {
@@ -11,11 +12,11 @@ namespace DiscordCSImplementation
         static async Task Main(string[] args)
         {
             await DiscordCS.Sockets.Handler.Connect();
-            PayloadFrame response = await DiscordCS.Gateways.Handler.Receive();
-            Console.WriteLine(response.Operation);
-            Console.WriteLine(response.Sequence);
-            Console.WriteLine(response.Type);
-            Console.WriteLine(JsonConvert.SerializeObject(response.Payload));
+
+            DiscordCS.Gateways.Heartbeating.Start(5000);
+
+            Thread.Sleep(1000000);
+
             await DiscordCS.Sockets.Handler.Disconnect();
         }
     }
