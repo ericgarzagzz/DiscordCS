@@ -12,10 +12,11 @@ namespace DiscordCSImplementation
         static async Task Main(string[] args)
         {
             await DiscordCS.Sockets.Handler.Connect();
+            int heartbeatingInterval = await DiscordCS.Gateways.Heartbeating.GetHeartBeatingInterval();
 
-            DiscordCS.Gateways.Heartbeating.Start(5000);
+            DiscordCS.Gateways.Heartbeating.Start(heartbeatingInterval);
 
-            Thread.Sleep(1000000);
+            Console.Read();
 
             await DiscordCS.Sockets.Handler.Disconnect();
         }

@@ -3,7 +3,9 @@ using System.Threading.Tasks;
 using System.Reactive;
 using DiscordCS.Gateways;
 using DiscordCSModels.Sockets;
+using DiscordCSModels.Sockets.Payloads;
 using System.Reactive.Linq;
+using Newtonsoft.Json;
 
 namespace DiscordCS.Gateways
 {
@@ -27,19 +29,21 @@ namespace DiscordCS.Gateways
         private static async Task Beat(long count)
         {
             PayloadFrame sendingBeat = GenerateBeatPayload();
-            Console.WriteLine("SEND");
             await Gateways.Handler.Send(sendingBeat);
-            Console.WriteLine(sendingBeat.ToString());
-            Console.WriteLine("RECEIVE");
+
             PayloadFrame receivingBeat = await Gateways.Handler.Receive();
-            Console.WriteLine(receivingBeat.ToString());
+
+            if (receivingBeat.Operation != (int)PayloadFrame.Opcodes.Heartbeat)
+            {
+                _suscription.Dispose();
+            }
         }
 
         private static PayloadFrame GenerateBeatPayload()
         {
             return new PayloadFrame
             {
-                Operation = 1,
+                Operation = (int)PayloadFrame.Opcodes.HeartbeatACK,
                 Sequence = lastSequence
             };
         }
@@ -48,6 +52,15 @@ namespace DiscordCS.Gateways
         {
             if (_suscription == null) throw new Exception("Disposable has not been initialized.");
             else return _suscription;
+        }
+
+        public static async Task<int> GetHeartBeatingInterval()
+        {
+            PayloadFrame frame = await Gateways.Handler.Receive();
+            string heartbeatJSON = JsonConvert.SerializeObject(frame.Payload);
+            Heartbeat heartbeat = JsonConvert.DeserializeObject<Heartbeat>(heartbeatJSON);
+
+            return heartbeat.Interval;
         }
     }
 }
